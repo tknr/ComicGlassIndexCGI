@@ -63,11 +63,14 @@
 	if ($path=="") {$path="./";}
 	$path = stripcslashes($path);
 	//ディレクトリトラバーサルを防止
-	$realpath = realpath($path);
-	$bookpath = realpath("./");
-	if(strpos($realpath, $bookpath, 0) !== 0)
-	{
-		$path="./";
+	$disable_directory_traversal=false;
+	if($disable_directory_traversal){
+		$realpath = realpath($path);
+		$bookpath = realpath("./");
+		if(strpos($realpath, $bookpath, 0) !== 0)
+		{
+			$path="./";
+		}
 	}
 
 ?>
@@ -96,6 +99,7 @@
 	sort($array_file); //ソート実行
 
 	//ファイル一覧を出力
+	$scriptdir = dirname($_SERVER['SCRIPT_NAME']);
 	foreach ($array_file as &$entry) {
 		$entry = substr($entry,1, strlen($entry)-1);
 		$folderpath = str_replace("%2F","/", rawurlencode($path.$entry));
@@ -104,7 +108,6 @@
 		$fullpathraw = str_replace("./", "", $path.$entry);
 		
 		$filedate = filemtime($fullpathraw);
-		$scriptdir = dirname($_SERVER['SCRIPT_NAME']);
 		if(preg_match('/$/',$scriptdir)){
 			$filebasepath = $scriptdir  . $fullpath;
 		}else{
