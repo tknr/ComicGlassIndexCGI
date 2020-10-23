@@ -109,7 +109,7 @@
 		
 		$filedate = filemtime($fullpathraw);
 		if(preg_match('/$/',$scriptdir)){
-			$filebasepath = $scriptdir  . $fullpath;
+			$filebasepath = $scriptdir  . "/" .$fullpath;
 		}else{
 		
 			$filebasepath = $scriptdir . "/" . $fullpath;
